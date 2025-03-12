@@ -1,9 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import type { Religion } from "../../types/religion";
-
-    let religions: Religion[] = [];
-    console.log("check data", religions);
+    import { religions } from "../../stores/religions";
 
     onMount(async () => {
         const res = await fetch(
@@ -11,9 +9,7 @@
         );
 
         const data: Religion[] = await res.json();
-        console.log("che", data);
-
-        religions = data;
+        religions.set(data);
     });
 </script>
 
@@ -45,7 +41,7 @@
             </thead>
 
             <tbody class="bg-white divide-y divide-[#3f00e7]">
-                {#each religions as religion}
+                {#each $religions as religion}
                     <tr>
                         <td><input type="checkbox" /></td>
                         <td class="px-6 py-3 text-left font-semibold"
