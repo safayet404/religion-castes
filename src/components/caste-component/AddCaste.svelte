@@ -3,15 +3,15 @@
     import { onMount } from "svelte";
     import { showToast } from "../../service/toastService";
     export let id: string;
-    import { religions } from "../../stores/religions";
-    import type { Religion } from "../../types/religion";
+    import { castes, religions } from "../../stores/religions";
+    import type { Castes, Religion } from "../../types/religion";
     import axios from "axios";
     import { writable } from "svelte/store";
     import { goto } from "$app/navigation";
 
     $: id = $page.params.id;
     let singleReligion: any = [];
-    let newReligion = { name: "", description: "", isActive: false };
+    let newCaste = { name: "", description: "", religionId: id };
     onMount(async () => {
         const res = await fetch(
             `https://religion-caste-backend.vercel.app/api/religions/single-religion/${id}`,
@@ -23,22 +23,14 @@
         console.log("single data", singleReligion?.name);
     });
 
-    $: if (singleReligion) {
-        newReligion = {
-            name: singleReligion.name,
-            description: singleReligion.description,
-            isActive: singleReligion.isActive,
-        };
-    }
-
     const isLoading = writable(false);
 
-    const addReligion = async () => {
+    const addCaste = async () => {
         isLoading.set(true);
         try {
-            const res = await axios.put(
-                `https://religion-caste-backend.vercel.app/api/religions/update-religion/${id}`,
-                newReligion,
+            const res = await axios.post(
+                `https://religion-caste-backend.vercel.app/api/castes/create-caste`,
+                newCaste,
                 {
                     headers: {
                         "Content-Type": "application/json",
@@ -46,19 +38,15 @@
                 },
             );
             if (res.status === 200 || res.status === 201) {
-                const addedReligion = res.data;
+                const addCaste = res.data;
 
-                console.log("Added Religion:", addedReligion);
-                religions.update((currentReligions) => [
-                    ...currentReligions,
-
-                    addedReligion,
-                ]);
-                await fetchReligions();
-                newReligion = { name: "", description: "", isActive: false };
+                console.log("Added Religion:", addCaste);
+                castes.update((currentCaste) => [...currentCaste, addCaste]);
+                await fetchCastes();
+                newCaste = { name: "", description: "", religionId: "" };
 
                 goto("/religions");
-                showToast("Religion Update Successfully", "success");
+                showToast("Caste Added Successfully", "success");
             } else {
                 console.log("Unexpected response status:", res.status);
             }
@@ -72,29 +60,35 @@
         }
     };
 
-    const fetchReligions = async () => {
+    const fetchCastes = async () => {
         const res = await fetch(
-            "http://localhost:5000/api/religions/get-religions",
+            "https://religion-caste-backend.vercel.app/api/castes/get-castes",
         );
 
-        const data: Religion[] = await res.json();
+        const data: Castes[] = await res.json();
 
-        religions.set(data);
+        castes.set(data);
     };
 </script>
 
 <section>
     <div class="container mx-auto p-4">
-        <h1 class="font-bold text-lg md:text-4xl mt-10">Religion Manager</h1>
+        <h1 class="mt-10 font-bold text-xl">Caste Page</h1>
+        <h1>
+            Selected Religion {singleReligion?._id} , {singleReligion?.name}
+        </h1>
+        <p class="font-bold text-lg md:text-4xl mt-10">
+            Caste Manager for {singleReligion?.name}
+        </p>
 
-        <form class="mt-10 mx-auto" on:submit|preventDefault={addReligion}>
+        <form class="mt-10 mx-auto" on:submit|preventDefault={addCaste}>
             <div class="grid grid-cols-1 w-[50%] gap-10">
                 <div class="flex flex-col">
                     <label for="religion ">Religion</label>
                     <input
                         type="text"
                         name="name"
-                        bind:value={newReligion.name}
+                        bind:value={newCaste.name}
                         class="border border-[#3f00e7] rounded-md p-2 mt-2"
                     />
                 </div>
@@ -103,18 +97,11 @@
                     <input
                         type="text"
                         name="description"
-                        bind:value={newReligion.description}
+                        bind:value={newCaste.description}
                         class="border border-[#3f00e7] rounded-md p-2 mt-2"
                     />
                 </div>
-                <div class="flex flex-col">
-                    <label for="religion">Active</label>
-                    <input
-                        type="checkbox"
-                        bind:checked={newReligion.isActive}
-                        class="w-5 bg-[#3f00e7] h-5"
-                    />
-                </div>
+
                 <div class="flex flex-col">
                     <div class="flex gap-5">
                         <button
@@ -122,14 +109,14 @@
                             class="bg-[#3f00e7] p-2 w-full text-white rounded-md"
                             disabled={$isLoading}
                         >
-                            {$isLoading ? "Saving ...." : "Save"}
+                            {$isLoading ? "Adding Caste ...." : "Add Caste"}
                         </button>
 
-                        <a
+                        <!-- <a
                             href="/religions"
                             class="bg-[#f100b7] p-2 w-full text-white text-center rounded-md"
                             >Cancel</a
-                        >
+                        > -->
                     </div>
                 </div>
             </div>

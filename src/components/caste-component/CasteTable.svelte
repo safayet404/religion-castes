@@ -1,9 +1,25 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import type { Religion } from "../../types/religion";
-    import { religions } from "../../stores/religions";
+    import type { Castes, Religion } from "../../types/religion";
+    import { religions, singleReligion } from "../../stores/religions";
     import axios from "axios";
     import { showToast } from "../../service/toastService";
+    import { page } from "$app/stores";
+    export let id: string;
+    $: id = $page.params.id;
+
+    let singleData: any = [];
+
+    // let singleReligion: any = [];
+    onMount(async () => {
+        const res = await fetch(
+            `https://religion-caste-backend.vercel.app/api/religions/single-religion/${id}`,
+        );
+
+        const data: Religion[] = await res.json();
+
+        singleReligion.set(data);
+    });
 
     onMount(async () => {
         const res = await fetch(
