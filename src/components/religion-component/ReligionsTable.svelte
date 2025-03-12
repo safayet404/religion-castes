@@ -2,15 +2,31 @@
     import { onMount } from "svelte";
     import type { Religion } from "../../types/religion";
     import { religions } from "../../stores/religions";
+    import axios from "axios";
+    import { showToast } from "../../service/toastService";
 
     onMount(async () => {
         const res = await fetch(
-            "http://localhost:5000/api/religions/get-religions",
+            "https://religion-caste-backend.vercel.app/api/religions/get-religions",
         );
 
         const data: Religion[] = await res.json();
         religions.set(data);
     });
+
+    const deleteReligion = async (id: string) => {
+        try {
+            await axios.delete(
+                `https://religion-caste-backend.vercel.app/api/religions/delete-religion/${id}`,
+            );
+            religions.update((religionList) =>
+                religionList.filter((religion) => religion._id !== id),
+            );
+            showToast("Religion deleted successfully", "success");
+        } catch (error) {
+            console.log("error deleting religion", error);
+        }
+    };
 </script>
 
 <section>
@@ -53,9 +69,12 @@
                         <td class="px-6 py-3 text-left">{religion?.isActive}</td
                         >
                         <td class="font-semibold text-sm">
-                            <button>Case</button>
+                            <button>Caste</button>
                             <button>Edit</button>
-                            <button>Delete</button>
+                            <button
+                                on:click={() => deleteReligion(religion?._id)}
+                                >Delete</button
+                            >
                         </td>
                     </tr>
                 {/each}

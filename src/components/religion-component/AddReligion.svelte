@@ -11,10 +11,13 @@
         isActive: false,
     };
 
+    let isLoading = false;
+
     const addReligion = async () => {
+        isLoading = true;
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/religions/create-religion",
+                "https://religion-caste-backend.vercel.app/api/religions/create-religion",
                 newReligion,
                 {
                     headers: {
@@ -43,6 +46,8 @@
                 "Error adding religion:",
                 error.response ? error.response.data : error,
             );
+        } finally {
+            isLoading = false;
         }
     };
 
@@ -93,8 +98,10 @@
                     <button
                         type="submit"
                         class="bg-[#3f00e7] p-2 w-full text-white rounded-md"
-                        >Add Religion</button
+                        disabled={isLoading}
                     >
+                        {isLoading ? "Religion Adding ...." : "Add Religion"}
+                    </button>
                 </div>
             </div>
         </form>
