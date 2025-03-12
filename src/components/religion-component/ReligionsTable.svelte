@@ -70,7 +70,10 @@
                         >
                         <td class="font-semibold text-sm">
                             <button>Caste</button>
-                            <button>Edit</button>
+                            <button>
+                                <a href={`/edit/${religion?._id}`}>Edit</a>
+                            </button>
+
                             <button
                                 on:click={() => deleteReligion(religion?._id)}
                                 >Delete</button
