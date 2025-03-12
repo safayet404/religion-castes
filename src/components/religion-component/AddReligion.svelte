@@ -4,17 +4,17 @@
     import { religions } from "../../stores/religions";
     import type { Religion } from "../../types/religion";
     import axios from "axios";
-
+    import { writable } from "svelte/store";
     let newReligion = {
         name: "",
         description: "",
         isActive: false,
     };
 
-    let isLoading = false;
+    const isLoading = writable(false);
 
     const addReligion = async () => {
-        isLoading = true;
+        isLoading.set(true);
         try {
             const res = await axios.post(
                 "https://religion-caste-backend.vercel.app/api/religions/create-religion",
@@ -47,7 +47,7 @@
                 error.response ? error.response.data : error,
             );
         } finally {
-            isLoading = false;
+            isLoading.set(false);
         }
     };
 
@@ -98,9 +98,9 @@
                     <button
                         type="submit"
                         class="bg-[#3f00e7] p-2 w-full text-white rounded-md"
-                        disabled={isLoading}
+                        disabled={$isLoading}
                     >
-                        {isLoading ? "Religion Adding ...." : "Add Religion"}
+                        {$isLoading ? "Religion Adding ...." : "Add Religion"}
                     </button>
                 </div>
             </div>
