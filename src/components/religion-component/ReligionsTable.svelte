@@ -13,26 +13,26 @@
 
 <section>
     <div class="container mx-auto p-4">
-        <table class="min-w-full divide-y divide-[#3f00e7]">
+        <table class="min-w-full table-fixed divide-y divide-[#3f00e7]">
             <thead>
                 <tr>
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[5%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                     ></th>
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[15%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Name</th
                     >
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[45%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Description</th
                     >
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[5%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >isActive</th
                     >
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[30%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Action</th
                     >
                 </tr>
@@ -41,23 +41,27 @@
             <tbody class="bg-white divide-y divide-[#3f00e7]">
                 {#each $religions as religion}
                     <tr>
-                        <td><input type="checkbox" /></td>
-                        <td class="px-6 py-3 text-left font-semibold"
+                        <td class="w-[5%] px-6 py-3"
+                            ><input type="checkbox" /></td
+                        >
+                        <td class="w-[15%] px-6 py-3 text-left font-semibold"
                             >{religion?.name}</td
                         >
-                        <td class="px-6 py-3 text-left"
+                        <td class="w-[45%] px-6 py-3 text-left"
                             >{religion?.description}</td
                         >
-                        <td class="px-6 py-3 text-left">{religion?.isActive}</td
+                        <td class="w-[5%] px-6 py-3 text-left"
+                            >{religion?.isActive}</td
                         >
-                        <td class="font-semibold text-sm">
-                            <button>
-                                <a href={`/castes/${religion?._id}`}>Caste</a>
-                            </button>
-                            <button>
-                                <a href={`/edit/${religion?._id}`}>Edit</a>
-                            </button>
-
+                        <td class="w-[30%] px-6 py-3 font-semibold text-sm">
+                            <button
+                                ><a href={`/castes/${religion?._id}`}>Caste</a
+                                ></button
+                            >
+                            <button
+                                ><a href={`/edit/${religion?._id}`}>Edit</a
+                                ></button
+                            >
                             <button
                                 on:click={() => deleteReligion(religion?._id)}
                                 >Delete</button

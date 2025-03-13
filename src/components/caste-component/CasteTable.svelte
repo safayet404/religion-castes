@@ -28,23 +28,22 @@
 
 <section>
     <div class="container mx-auto p-4">
-        <table class="min-w-full divide-y divide-[#f87171]">
+        <table class="min-w-full table-fixed divide-y divide-[#f87171]">
             <thead>
                 <tr>
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[25%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                     ></th>
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[25%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Name</th
                     >
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[25%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Description</th
                     >
-
                     <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[25%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Action</th
                     >
                 </tr>
@@ -53,20 +52,19 @@
             <tbody class="bg-white divide-y divide-[#f87171]">
                 {#each $singleReligion as caste}
                     <tr>
-                        <td><input type="checkbox" /></td>
-                        <td class="px-6 py-3 text-left font-semibold"
+                        <td class="w-[25%] px-6 py-3"
+                            ><input type="checkbox" /></td
+                        >
+                        <td class="w-[25%] px-6 py-3 font-semibold"
                             >{caste?.name}</td
                         >
-                        <td class="px-6 py-3 text-left">{caste?.description}</td
-                        >
-
-                        <td class="font-semibold text-sm">
+                        <td class="w-[25%] px-6 py-3">{caste?.description}</td>
+                        <td class="w-[25%] px-6 py-3 font-semibold text-sm">
                             <button>
                                 <a href={`/edit-caste/${id}/${caste._id}`}
                                     >Edit</a
                                 >
                             </button>
-
                             <button on:click={() => deleteCaste(caste?._id)}
                                 >Delete</button
                             >
