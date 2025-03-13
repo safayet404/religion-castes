@@ -1,4 +1,3 @@
-import { castes } from './../stores/religions';
 export interface Religion {
 
     _id: string

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import EditReligion from "../../../components/religion-component/EditReligion.svelte";
     import type { PageData } from "./$types"; // Import PageData type
+    import EditCaste from "../../../components/caste-component/EditCaste.svelte";
 
     export let data: PageData; // Type the data prop
 </script>
 
-<EditReligion id={data?.id as string} />
+<EditCaste id={data?.id as string} />

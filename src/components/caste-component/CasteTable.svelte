@@ -16,9 +16,10 @@
             `https://religion-caste-backend.vercel.app/api/religions/single-religion/${id}`,
         );
 
-        const data: Religion[] = await res.json();
+        const data: any = await res.json();
+        console.log(data?.castes);
 
-        singleReligion.set(data);
+        singleReligion.set(data?.castes);
     });
 
     onMount(async () => {
@@ -27,20 +28,21 @@
         );
 
         const data: Religion[] = await res.json();
+
         religions.set(data);
     });
 
-    const deleteReligion = async (id: string) => {
+    const deleteCaste = async (id: string) => {
         try {
             await axios.delete(
-                `https://religion-caste-backend.vercel.app/api/religions/delete-religion/${id}`,
+                `https://religion-caste-backend.vercel.app/api/castes/delete-caste/${id}`,
             );
-            religions.update((religionList) =>
-                religionList.filter((religion) => religion._id !== id),
+            singleReligion.update((casteList) =>
+                casteList.filter((caste) => caste._id !== id),
             );
-            showToast("Religion deleted successfully", "success");
+            showToast("Caste deleted successfully", "success");
         } catch (error) {
-            console.log("error deleting religion", error);
+            console.log("error deleting caste", error);
         }
     };
 </script>
@@ -61,10 +63,7 @@
                         class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Description</th
                     >
-                    <th
-                        class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
-                        >isActive</th
-                    >
+
                     <th
                         class="px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Action</th
@@ -73,27 +72,21 @@
             </thead>
 
             <tbody class="bg-white divide-y divide-[#3f00e7]">
-                {#each $religions as religion}
+                {#each $singleReligion as caste}
                     <tr>
                         <td><input type="checkbox" /></td>
                         <td class="px-6 py-3 text-left font-semibold"
-                            >{religion?.name}</td
+                            >{caste?.name}</td
                         >
-                        <td class="px-6 py-3 text-left"
-                            >{religion?.description}</td
+                        <td class="px-6 py-3 text-left">{caste?.description}</td
                         >
-                        <td class="px-6 py-3 text-left">{religion?.isActive}</td
-                        >
+
                         <td class="font-semibold text-sm">
                             <button>
-                                <a href={`/castes/${religion?._id}`}>Caste</a>
-                            </button>
-                            <button>
-                                <a href={`/edit/${religion?._id}`}>Edit</a>
+                                <a href={`/edit-caste/${caste?._id}`}>Edit</a>
                             </button>
 
-                            <button
-                                on:click={() => deleteReligion(religion?._id)}
+                            <button on:click={() => deleteCaste(caste?._id)}
                                 >Delete</button
                             >
                         </td>

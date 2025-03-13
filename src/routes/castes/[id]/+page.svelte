@@ -6,5 +6,5 @@
     export let data: PageData; // Type the data prop
 </script>
 
-<AddCaste id={data.id as string} />
-<CasteTable id={data.id as string} />
+<AddCaste id={data?.id as string} />
+<CasteTable id={data?.id as string} />
