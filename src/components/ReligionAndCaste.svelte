@@ -18,14 +18,12 @@
         religions.set(data);
 
         if (data.length > 0) {
-            selectedReligionId = data[0]._id; // Set default religion ID
-            selectedReligion = data[0]?.name; // Set default religion name
+            selectedReligionId = data[0]._id;
+            selectedReligion = data[0]?.name;
         }
     });
 
-    // Watch the selectedReligionId and update the religion name accordingly
     $: if (selectedReligionId) {
-        // Find the selected religion name based on the selectedReligionId
         const selectedReligionObj = $religions.find(
             (religion) => religion._id === selectedReligionId,
         );
@@ -33,7 +31,6 @@
             selectedReligion = selectedReligionObj.name;
         }
 
-        // Fetch castes based on the selected religion ID
         const fetchCastes = async () => {
             const castesData = await fetch(
                 `https://religion-caste-backend.vercel.app/api/religions/single-religion/${selectedReligionId}`,
@@ -43,17 +40,15 @@
 
             singleReligion.set(data2?.castes);
 
-            // Set the default selected caste
             if (data2?.castes.length > 0) {
-                selectedCasteId = data2?.castes[0]?._id; // Set default caste ID
-                selectedCaste = data2?.castes[0]?.name; // Set default caste name
+                selectedCasteId = data2?.castes[0]?._id;
+                selectedCaste = data2?.castes[0]?.name;
             }
         };
 
-        fetchCastes(); // Fetch castes when the religion changes
+        fetchCastes();
     }
 
-    // Watch selectedCasteId and update selectedCaste accordingly
     $: if (selectedCasteId && $singleReligion) {
         const selectedCasteObj = $singleReligion.find(
             (caste) => caste._id === selectedCasteId,
