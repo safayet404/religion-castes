@@ -7,53 +7,39 @@
     import type { Religion } from "../../types/religion";
     import axios from "axios";
     import { writable } from "svelte/store";
+    import { fetchSingleReligion } from "../../utils/fetchData";
+    import { createCaste } from "../../utils/createOperation";
 
     $: id = $page.params.id;
     let singleReligionData: any = [];
     let newCaste = { name: "", description: "", religionId: id };
     onMount(async () => {
-        const res = await fetch(
-            `https://religion-caste-backend.vercel.app/api/religions/single-religion/${id}`,
-        );
-
-        const data: Religion[] = await res.json();
+        const data: Religion[] = await fetchSingleReligion(id);
 
         singleReligionData = data;
     });
 
     const isLoading = writable(false);
+    onMount(() => {
+        newCaste = { name: "", description: "", religionId: id }; // Reset on mount
+    });
 
     const addCaste = async () => {
         isLoading.set(true);
         try {
-            const res = await axios.post(
-                `https://religion-caste-backend.vercel.app/api/castes/create-caste`,
-                newCaste,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                },
-            );
-            if (res.status === 200 || res.status === 201) {
-                const addCaste = res.data;
+            const addedCaste = await createCaste(newCaste);
 
-                singleReligion.update((currentCaste) => [
-                    ...currentCaste,
-                    addCaste,
-                ]);
+            console.log("Added Caste:", addedCaste);
+            singleReligion.update((currentCastes) => [
+                ...currentCastes,
+                addedCaste,
+            ]);
 
-                newCaste = { name: "", description: "", religionId: "" };
+            newCaste = { name: "", description: "", religionId: id };
 
-                showToast("Caste Added Successfully", "success");
-            } else {
-                console.log("Unexpected response status:", res.status);
-            }
-        } catch (error: any) {
-            console.error(
-                "Error adding religion:",
-                error.response ? error.response.data : error,
-            );
+            showToast("Caste Added Successfully", "success");
+        } catch (error) {
+            console.error("Error adding caste:", error);
         } finally {
             isLoading.set(false);
         }

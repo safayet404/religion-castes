@@ -2,66 +2,52 @@
     import { onMount } from "svelte";
     import { religions, singleReligion } from "../stores/religions";
     import type { Religion } from "../types/religion";
+    import { fetchCastesByReligion, fetchReligions } from "../utils/fetchData";
 
     let selectedReligionId: string | null = null;
     let selectedReligion: string | null = null;
     let selectedCasteId: string | null = null;
     let selectedCaste: string | null = null;
 
-    // Fetch religions when the component is mounted
     onMount(async () => {
-        const res = await fetch(
-            "https://religion-caste-backend.vercel.app/api/religions/get-religions",
-        );
-
-        const data: Religion[] = await res.json();
+        // Fetch religions
+        const data: Religion[] = await fetchReligions();
         religions.set(data);
 
         if (data.length > 0) {
             selectedReligionId = data[0]._id;
             selectedReligion = data[0]?.name;
         }
+
+        // Ensure selectedReligionId is not null before fetching castes
+        if (selectedReligionId) {
+            const castesData = await fetchCastesByReligion(selectedReligionId);
+            singleReligion.set(castesData);
+
+            if (castesData.length > 0) {
+                selectedCasteId = castesData[0]._id;
+                selectedCaste = castesData[0].name;
+            }
+        }
     });
 
-    $: if (selectedReligionId) {
-        const selectedReligionObj = $religions.find(
-            (religion) => religion._id === selectedReligionId,
-        );
-        if (selectedReligionObj) {
-            selectedReligion = selectedReligionObj.name;
-        }
-
+    // Fetch castes whenever selectedReligionId changes (with null check)
+    $: if (selectedReligionId !== null) {
         const fetchCastes = async () => {
-            const castesData = await fetch(
-                `https://religion-caste-backend.vercel.app/api/religions/single-religion/${selectedReligionId}`,
+            // Type assertion to tell TypeScript that selectedReligionId is definitely a string here
+            const castesData = await fetchCastesByReligion(
+                selectedReligionId as string,
             );
-            const data2: any = await castesData.json();
-            console.log(data2?.castes);
+            singleReligion.set(castesData);
 
-            singleReligion.set(data2?.castes);
-
-            if (data2?.castes.length > 0) {
-                selectedCasteId = data2?.castes[0]?._id;
-                selectedCaste = data2?.castes[0]?.name;
+            if (castesData.length > 0) {
+                selectedCasteId = castesData[0]._id;
+                selectedCaste = castesData[0].name;
             }
         };
 
         fetchCastes();
     }
-
-    $: if (selectedCasteId && $singleReligion) {
-        const selectedCasteObj = $singleReligion.find(
-            (caste) => caste._id === selectedCasteId,
-        );
-        if (selectedCasteObj) {
-            selectedCaste = selectedCasteObj.name;
-        }
-    }
-
-    console.log("selectedReligionId", selectedReligionId);
-    console.log("selectedReligion", selectedReligion);
-    console.log("selectedCasteId", selectedCasteId);
-    console.log("selectedCaste", selectedCaste);
 </script>
 
 <section class="mt-5 container mx-auto">

@@ -2,31 +2,13 @@
     import { onMount } from "svelte";
     import type { Religion } from "../../types/religion";
     import { religions } from "../../stores/religions";
-    import axios from "axios";
-    import { showToast } from "../../service/toastService";
+    import { fetchReligions } from "../../utils/fetchData";
+    import { deleteReligion } from "../../utils/deleteOperation";
 
     onMount(async () => {
-        const res = await fetch(
-            "https://religion-caste-backend.vercel.app/api/religions/get-religions",
-        );
-
-        const data: Religion[] = await res.json();
+        const data: Religion[] = await fetchReligions();
         religions.set(data);
     });
-
-    const deleteReligion = async (id: string) => {
-        try {
-            await axios.delete(
-                `https://religion-caste-backend.vercel.app/api/religions/delete-religion/${id}`,
-            );
-            religions.update((religionList) =>
-                religionList.filter((religion) => religion._id !== id),
-            );
-            showToast("Religion deleted successfully", "success");
-        } catch (error) {
-            console.log("error deleting religion", error);
-        }
-    };
 </script>
 
 <section>

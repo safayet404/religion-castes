@@ -5,6 +5,8 @@
     import axios from "axios";
     import { showToast } from "../../service/toastService";
     import { page } from "$app/stores";
+    import { fetchCastesByReligion } from "../../utils/fetchData";
+    import { deleteCaste } from "../../utils/deleteOperation";
     export let id: string;
     $: id = $page.params.id;
 
@@ -12,14 +14,9 @@
 
     // let singleReligion: any = [];
     onMount(async () => {
-        const res = await fetch(
-            `https://religion-caste-backend.vercel.app/api/religions/single-religion/${id}`,
-        );
+        const data: any = await fetchCastesByReligion(id);
 
-        const data: any = await res.json();
-        console.log(data?.castes);
-
-        singleReligion.set(data?.castes);
+        singleReligion.set(data);
     });
 
     onMount(async () => {
@@ -31,20 +28,6 @@
 
         religions.set(data);
     });
-
-    const deleteCaste = async (id: string) => {
-        try {
-            await axios.delete(
-                `https://religion-caste-backend.vercel.app/api/castes/delete-caste/${id}`,
-            );
-            singleReligion.update((casteList) =>
-                casteList.filter((caste) => caste._id !== id),
-            );
-            showToast("Caste deleted successfully", "success");
-        } catch (error) {
-            console.log("error deleting caste", error);
-        }
-    };
 </script>
 
 <section>

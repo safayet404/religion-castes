@@ -8,6 +8,10 @@
     import axios from "axios";
     import { writable } from "svelte/store";
     import { goto } from "$app/navigation";
+    import {
+        fetchSingleReligion,
+        fetchSngleCaste,
+    } from "../../utils/fetchData";
 
     $: religionId = $page.params.religionId;
     $: casteId = $page.params.casteId;
@@ -16,17 +20,9 @@
 
     onMount(async () => {
         try {
-            const religionRes = await fetch(
-                `https://religion-caste-backend.vercel.app/api/religions/single-religion/${religionId}`,
-            );
-            singleReligionData = await religionRes.json();
-            console.log("Single Religion Data:", singleReligionData);
+            singleReligionData = await fetchSingleReligion(religionId);
 
-            const casteRes = await fetch(
-                `https://religion-caste-backend.vercel.app/api/castes/single-caste/${casteId}`,
-            );
-            const casteData = await casteRes.json();
-            console.log("Caste Data:", casteData);
+            const casteData = await fetchSngleCaste(casteId);
 
             newCaste.name = casteData.name;
             newCaste.description = casteData.description;

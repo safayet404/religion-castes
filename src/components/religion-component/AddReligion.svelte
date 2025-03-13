@@ -1,10 +1,13 @@
 <script lang="ts">
+    import { onMount } from "svelte"; // Import onMount hook
     import { showToast } from "../../service/toastService";
-
     import { religions } from "../../stores/religions";
     import type { Religion } from "../../types/religion";
     import axios from "axios";
     import { writable } from "svelte/store";
+    import { fetchReligions } from "../../utils/fetchData";
+    import { createReligion } from "../../utils/createOperation";
+
     let newReligion = {
         name: "",
         description: "",
@@ -13,51 +16,32 @@
 
     const isLoading = writable(false);
 
+    onMount(() => {
+        newReligion = { name: "", description: "", isActive: false };
+    });
+
     const addReligion = async () => {
         isLoading.set(true);
         try {
-            const res = await axios.post(
-                "https://religion-caste-backend.vercel.app/api/religions/create-religion",
-                newReligion,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                },
-            );
-            if (res.status === 200 || res.status === 201) {
-                const addedReligion = res.data;
+            const addedReligion = await createReligion(newReligion);
+            religions.update((currentReligions) => [
+                ...currentReligions,
+                addedReligion,
+            ]);
 
-                console.log("Added Religion:", addedReligion);
-                religions.update((currentReligions) => [
-                    ...currentReligions,
+            await fetchReligionAgain();
+            newReligion = { name: "", description: "", isActive: false };
 
-                    addedReligion,
-                ]);
-                await fetchReligions();
-                newReligion = { name: "", description: "", isActive: false };
-
-                showToast("Religion Added Successfully", "success");
-            } else {
-                console.log("Unexpected response status:", res.status);
-            }
-        } catch (error: any) {
-            console.error(
-                "Error adding religion:",
-                error.response ? error.response.data : error,
-            );
+            showToast("Religion Added Successfully", "success");
+        } catch (error) {
+            console.error("Error adding religion:", error);
         } finally {
             isLoading.set(false);
         }
     };
 
-    const fetchReligions = async () => {
-        const res = await fetch(
-            "https://religion-caste-backend.vercel.app/api/religions/get-religions",
-        );
-
-        const data: Religion[] = await res.json();
-
+    const fetchReligionAgain = async () => {
+        const data: Religion[] = await fetchReligions();
         religions.set(data);
     };
 </script>
