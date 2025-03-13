@@ -32,14 +32,14 @@
             <thead>
                 <tr>
                     <th
-                        class="w-[25%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[10%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                     ></th>
                     <th
                         class="w-[25%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Name</th
                     >
                     <th
-                        class="w-[25%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
+                        class="w-[40%] px-6 py-3 text-left text-xs font-bold text-black tracking-wider"
                         >Description</th
                     >
                     <th
@@ -52,13 +52,13 @@
             <tbody class="bg-white divide-y divide-[#f87171]">
                 {#each $singleReligion as caste}
                     <tr>
-                        <td class="w-[25%] px-6 py-3"
+                        <td class="w-[10%] px-6 py-3"
                             ><input type="checkbox" /></td
                         >
                         <td class="w-[25%] px-6 py-3 font-semibold"
                             >{caste?.name}</td
                         >
-                        <td class="w-[25%] px-6 py-3">{caste?.description}</td>
+                        <td class="w-[45%] px-6 py-3">{caste?.description}</td>
                         <td class="w-[25%] px-6 py-3 font-semibold text-sm">
                             <button>
                                 <a href={`/edit-caste/${id}/${caste._id}`}
