@@ -4,7 +4,10 @@
     import { religions, singleReligion } from "../../stores/religions";
 
     import { page } from "$app/stores";
-    import { fetchCastesByReligion } from "../../utils/fetchData";
+    import {
+        fetchCastesByReligion,
+        fetchReligions,
+    } from "../../utils/fetchData";
     import { deleteCaste } from "../../utils/deleteOperation";
     export let id: string;
     $: id = $page.params.id;
@@ -16,11 +19,7 @@
     });
 
     onMount(async () => {
-        const res = await fetch(
-            "https://religion-caste-backend.vercel.app/api/religions/get-religions",
-        );
-
-        const data: Religion[] = await res.json();
+        const data: Religion[] = await fetchReligions();
 
         religions.set(data);
     });
