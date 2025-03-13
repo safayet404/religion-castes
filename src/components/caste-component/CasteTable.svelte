@@ -28,7 +28,7 @@
 
 <section>
     <div class="container mx-auto p-4">
-        <table class="min-w-full divide-y divide-[#3f00e7]">
+        <table class="min-w-full divide-y divide-[#f87171]">
             <thead>
                 <tr>
                     <th
@@ -50,7 +50,7 @@
                 </tr>
             </thead>
 
-            <tbody class="bg-white divide-y divide-[#3f00e7]">
+            <tbody class="bg-white divide-y divide-[#f87171]">
                 {#each $singleReligion as caste}
                     <tr>
                         <td><input type="checkbox" /></td>
