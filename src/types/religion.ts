@@ -3,7 +3,7 @@ export interface Religion {
     _id: string
     name: string,
     description: string,
-    castes: Castes[];
+    castes: any[];
     isActive: boolean
 }
 export interface Castes {

@@ -9,7 +9,7 @@
                     <a href="/religions">Religions</a>
                 </li>
                 <li>
-                    <a href=" ">ReligionCaste</a>
+                    <a href="/religion-caste">ReligionCaste</a>
                 </li>
                 <li>
                     <a href="/birth">Birth Date</a>

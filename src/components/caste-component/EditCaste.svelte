@@ -4,8 +4,7 @@
     import { showToast } from "../../service/toastService";
     export let religionId: string;
     export let casteId: string;
-    import { castes, religions, singleReligion } from "../../stores/religions";
-    import type { Castes, Religion } from "../../types/religion";
+    import { singleReligion } from "../../stores/religions";
     import axios from "axios";
     import { writable } from "svelte/store";
     import { goto } from "$app/navigation";
@@ -17,24 +16,21 @@
 
     onMount(async () => {
         try {
-            // Fetch single religion data
             const religionRes = await fetch(
                 `https://religion-caste-backend.vercel.app/api/religions/single-religion/${religionId}`,
             );
             singleReligionData = await religionRes.json();
             console.log("Single Religion Data:", singleReligionData);
 
-            // Fetch caste data for editing
             const casteRes = await fetch(
                 `https://religion-caste-backend.vercel.app/api/castes/single-caste/${casteId}`,
             );
             const casteData = await casteRes.json();
             console.log("Caste Data:", casteData);
 
-            // Populate the form fields with existing data
             newCaste.name = casteData.name;
             newCaste.description = casteData.description;
-            newCaste.religionId = casteData.religionId; // Keep the same religionId
+            newCaste.religionId = casteData.religionId;
         } catch (error) {
             console.error("Error fetching data:", error);
         }

@@ -3,11 +3,10 @@
     import { onMount } from "svelte";
     import { showToast } from "../../service/toastService";
     export let id: string;
-    import { castes, religions, singleReligion } from "../../stores/religions";
-    import type { Castes, Religion } from "../../types/religion";
+    import { singleReligion } from "../../stores/religions";
+    import type { Religion } from "../../types/religion";
     import axios from "axios";
     import { writable } from "svelte/store";
-    import { goto } from "$app/navigation";
 
     $: id = $page.params.id;
     let singleReligionData: any = [];
@@ -20,7 +19,6 @@
         const data: Religion[] = await res.json();
 
         singleReligionData = data;
-        console.log("single data", singleReligionData?.name);
     });
 
     const isLoading = writable(false);
@@ -47,7 +45,6 @@
 
                 newCaste = { name: "", description: "", religionId: "" };
 
-                // goto("/religions");
                 showToast("Caste Added Successfully", "success");
             } else {
                 console.log("Unexpected response status:", res.status);
@@ -103,12 +100,6 @@
                         >
                             {$isLoading ? "Adding Caste ...." : "Add Caste"}
                         </button>
-
-                        <!-- <a
-                            href="/religions"
-                            class="bg-[#f100b7] p-2 w-full text-white text-center rounded-md"
-                            >Cancel</a
-                        > -->
                     </div>
                 </div>
             </div>
