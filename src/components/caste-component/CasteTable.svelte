@@ -83,7 +83,9 @@
 
                         <td class="font-semibold text-sm">
                             <button>
-                                <a href={`/edit-caste/${caste?._id}`}>Edit</a>
+                                <a href={`/edit-caste/${id}/${caste._id}`}
+                                    >Edit</a
+                                >
                             </button>
 
                             <button on:click={() => deleteCaste(caste?._id)}

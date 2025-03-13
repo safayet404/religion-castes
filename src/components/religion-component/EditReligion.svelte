@@ -74,7 +74,7 @@
 
     const fetchReligions = async () => {
         const res = await fetch(
-            "http://localhost:5000/api/religions/get-religions",
+            "https://religion-caste-backend.vercel.app/api/religions/get-religions",
         );
 
         const data: Religion[] = await res.json();

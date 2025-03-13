@@ -2,25 +2,42 @@
     import { page } from "$app/stores";
     import { onMount } from "svelte";
     import { showToast } from "../../service/toastService";
-    export let id: string;
+    export let religionId: string;
+    export let casteId: string;
     import { castes, religions, singleReligion } from "../../stores/religions";
     import type { Castes, Religion } from "../../types/religion";
     import axios from "axios";
     import { writable } from "svelte/store";
     import { goto } from "$app/navigation";
 
-    $: id = $page.params.id;
+    $: religionId = $page.params.religionId;
+    $: casteId = $page.params.casteId;
     let singleReligionData: any = [];
-    let newCaste = { name: "", description: "", religionId: id };
+    let newCaste = { name: "", description: "", religionId: religionId };
+
     onMount(async () => {
-        const res = await fetch(
-            `https://religion-caste-backend.vercel.app/api/religions/single-religion/${id}`,
-        );
+        try {
+            // Fetch single religion data
+            const religionRes = await fetch(
+                `https://religion-caste-backend.vercel.app/api/religions/single-religion/${religionId}`,
+            );
+            singleReligionData = await religionRes.json();
+            console.log("Single Religion Data:", singleReligionData);
 
-        const data: Religion[] = await res.json();
+            // Fetch caste data for editing
+            const casteRes = await fetch(
+                `https://religion-caste-backend.vercel.app/api/castes/single-caste/${casteId}`,
+            );
+            const casteData = await casteRes.json();
+            console.log("Caste Data:", casteData);
 
-        singleReligionData = data;
-        console.log("single data", singleReligionData?.name);
+            // Populate the form fields with existing data
+            newCaste.name = casteData.name;
+            newCaste.description = casteData.description;
+            newCaste.religionId = casteData.religionId; // Keep the same religionId
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     });
 
     const isLoading = writable(false);
@@ -28,8 +45,8 @@
     const addCaste = async () => {
         isLoading.set(true);
         try {
-            const res = await axios.post(
-                `https://religion-caste-backend.vercel.app/api/castes/create-caste`,
+            const res = await axios.put(
+                `https://religion-caste-backend.vercel.app/api/castes/update-caste/${casteId}`,
                 newCaste,
                 {
                     headers: {
@@ -47,8 +64,8 @@
 
                 newCaste = { name: "", description: "", religionId: "" };
 
-                // goto("/religions");
-                showToast("Caste Added Successfully", "success");
+                goto(`/castes/${religionId}`);
+                showToast("Caste Updated Successfully", "success");
             } else {
                 console.log("Unexpected response status:", res.status);
             }
@@ -101,14 +118,14 @@
                             class="bg-[#3f00e7] p-2 w-full text-white rounded-md"
                             disabled={$isLoading}
                         >
-                            {$isLoading ? "Adding Caste ...." : "Add Caste"}
+                            {$isLoading ? "Saving ...." : "Save"}
                         </button>
 
-                        <!-- <a
+                        <a
                             href="/religions"
                             class="bg-[#f100b7] p-2 w-full text-white text-center rounded-md"
                             >Cancel</a
-                        > -->
+                        >
                     </div>
                 </div>
             </div>
