@@ -15,7 +15,7 @@
 
         if (data.length > 0) {
             selectedReligionId = data[0]._id;
-            selectedReligion = data[0]?.name;
+            selectedReligion = data[0].name;
         }
 
         if (selectedReligionId) {
@@ -29,7 +29,10 @@
         }
     });
 
-    $: if (selectedReligionId !== null) {
+    $: if (selectedReligionId) {
+        const religion = $religions.find((r) => r._id === selectedReligionId);
+        if (religion) selectedReligion = religion.name;
+
         const fetchCastes = async () => {
             const castesData = await fetchCastesByReligion(
                 selectedReligionId as string,
@@ -39,10 +42,18 @@
             if (castesData.length > 0) {
                 selectedCasteId = castesData[0]._id;
                 selectedCaste = castesData[0].name;
+            } else {
+                selectedCasteId = null;
+                selectedCaste = null;
             }
         };
 
         fetchCastes();
+    }
+
+    $: if (selectedCasteId) {
+        const caste = $singleReligion.find((c) => c._id === selectedCasteId);
+        if (caste) selectedCaste = caste.name;
     }
 </script>
 
@@ -58,7 +69,7 @@
                     bind:value={selectedReligionId}
                 >
                     {#each $religions as religion}
-                        <option value={religion?._id}>{religion?.name}</option>
+                        <option value={religion._id}>{religion.name}</option>
                     {/each}
                 </select>
             </div>
@@ -69,7 +80,7 @@
                     bind:value={selectedCasteId}
                 >
                     {#each $singleReligion as caste}
-                        <option value={caste?._id}>{caste?.name}</option>
+                        <option value={caste._id}>{caste.name}</option>
                     {/each}
                 </select>
             </div>
