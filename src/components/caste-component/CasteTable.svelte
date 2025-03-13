@@ -1,18 +1,14 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import type { Castes, Religion } from "../../types/religion";
+    import type { Religion } from "../../types/religion";
     import { religions, singleReligion } from "../../stores/religions";
-    import axios from "axios";
-    import { showToast } from "../../service/toastService";
+
     import { page } from "$app/stores";
     import { fetchCastesByReligion } from "../../utils/fetchData";
     import { deleteCaste } from "../../utils/deleteOperation";
     export let id: string;
     $: id = $page.params.id;
 
-    let singleData: any = [];
-
-    // let singleReligion: any = [];
     onMount(async () => {
         const data: any = await fetchCastesByReligion(id);
 

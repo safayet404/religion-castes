@@ -5,7 +5,6 @@
     export let id: string;
     import { religions } from "../../stores/religions";
     import type { Religion } from "../../types/religion";
-    import axios from "axios";
     import { writable } from "svelte/store";
     import { goto } from "$app/navigation";
     import { updateReligion } from "../../utils/updateOperation";
@@ -41,7 +40,6 @@
             const res = await updateReligion(id, newReligion);
             const addedReligion = res.data;
 
-            console.log("Added Religion:", addedReligion);
             religions.update((currentReligions) => [
                 ...currentReligions,
 

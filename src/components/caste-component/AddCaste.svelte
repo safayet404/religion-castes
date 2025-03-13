@@ -5,7 +5,6 @@
     export let id: string;
     import { singleReligion } from "../../stores/religions";
     import type { Religion } from "../../types/religion";
-    import axios from "axios";
     import { writable } from "svelte/store";
     import { fetchSingleReligion } from "../../utils/fetchData";
     import { createCaste } from "../../utils/createOperation";
@@ -21,7 +20,7 @@
 
     const isLoading = writable(false);
     onMount(() => {
-        newCaste = { name: "", description: "", religionId: id }; // Reset on mount
+        newCaste = { name: "", description: "", religionId: id };
     });
 
     const addCaste = async () => {

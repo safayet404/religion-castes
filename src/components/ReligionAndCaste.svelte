@@ -10,7 +10,6 @@
     let selectedCaste: string | null = null;
 
     onMount(async () => {
-        // Fetch religions
         const data: Religion[] = await fetchReligions();
         religions.set(data);
 
@@ -19,7 +18,6 @@
             selectedReligion = data[0]?.name;
         }
 
-        // Ensure selectedReligionId is not null before fetching castes
         if (selectedReligionId) {
             const castesData = await fetchCastesByReligion(selectedReligionId);
             singleReligion.set(castesData);
@@ -31,10 +29,8 @@
         }
     });
 
-    // Fetch castes whenever selectedReligionId changes (with null check)
     $: if (selectedReligionId !== null) {
         const fetchCastes = async () => {
-            // Type assertion to tell TypeScript that selectedReligionId is definitely a string here
             const castesData = await fetchCastesByReligion(
                 selectedReligionId as string,
             );

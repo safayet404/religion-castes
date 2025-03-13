@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { onMount } from "svelte"; // Import onMount hook
+    import { onMount } from "svelte";
     import { showToast } from "../../service/toastService";
     import { religions } from "../../stores/religions";
     import type { Religion } from "../../types/religion";
-    import axios from "axios";
     import { writable } from "svelte/store";
     import { fetchReligions } from "../../utils/fetchData";
     import { createReligion } from "../../utils/createOperation";

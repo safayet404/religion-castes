@@ -7,10 +7,10 @@ export const createReligion = async (data: any) => {
                 "Content-Type": "application/json",
             },
         });
-        return response.data; // return the response data
+        return response.data;
     } catch (error) {
         console.error("Error in POST request:", error);
-        throw error; // Re-throw the error to handle it elsewhere if needed
+        throw error;
     }
 };
 export const createCaste = async (data: any) => {
@@ -20,9 +20,9 @@ export const createCaste = async (data: any) => {
                 "Content-Type": "application/json",
             },
         });
-        return response.data; // return the response data
+        return response.data;
     } catch (error) {
         console.error("Error in POST request:", error);
-        throw error; // Re-throw the error to handle it elsewhere if needed
+        throw error;
     }
 };
