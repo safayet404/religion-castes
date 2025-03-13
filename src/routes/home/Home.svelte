@@ -1,18 +1,32 @@
 <section>
-    <div class="container mx-auto">
+    <div class="container mx-auto px-4">
         <h1 class="mt-20 text-4xl font-bold mx-auto text-center">
-            Religions, Castes and Birth date in SvelteKit
+            Religions, Castes and Birth Date in SvelteKit
         </h1>
         <nav class="mt-10">
-            <ul class="flex justify-center text-white gap-20">
-                <li class="">
-                    <a href="/religions">Religions</a>
+            <ul
+                class="flex flex-wrap justify-center text-white gap-4 sm:gap-10 md:gap-20"
+            >
+                <li>
+                    <a
+                        href="/religions"
+                        class="block px-6 py-1 rounded-lg text-center w-full sm:w-auto"
+                        >Religions</a
+                    >
                 </li>
                 <li>
-                    <a href="/religion-caste">ReligionCaste</a>
+                    <a
+                        href="/religion-caste"
+                        class="block px-6 py-1 rounded-lg text-center w-full sm:w-auto"
+                        >ReligionCaste</a
+                    >
                 </li>
                 <li>
-                    <a href="/birth">Birth Date</a>
+                    <a
+                        href="/birth"
+                        class="block px-6 py-1 rounded-lg text-center w-full sm:w-auto"
+                        >Birth Date</a
+                    >
                 </li>
             </ul>
         </nav>
