@@ -28,7 +28,6 @@
         try {
             const addedCaste = await createCaste(newCaste);
 
-            console.log("Added Caste:", addedCaste);
             singleReligion.update((currentCastes) => [
                 ...currentCastes,
                 addedCaste,

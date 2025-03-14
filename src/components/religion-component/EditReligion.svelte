@@ -8,17 +8,13 @@
     import { writable } from "svelte/store";
     import { goto } from "$app/navigation";
     import { updateReligion } from "../../utils/updateOperation";
-    import { fetchReligions } from "../../utils/fetchData";
+    import { fetchReligions, fetchSingleReligion } from "../../utils/fetchData";
 
     $: id = $page.params.id;
     let singleReligion: any = [];
     let newReligion = { name: "", description: "", isActive: false };
     onMount(async () => {
-        const res = await fetch(
-            `https://religion-caste-backend.vercel.app/api/religions/single-religion/${id}`,
-        );
-
-        const data: Religion[] = await res.json();
+        const data: Religion[] = await fetchSingleReligion(id);
 
         singleReligion = data;
     });
@@ -37,21 +33,25 @@
         isLoading.set(true);
         try {
             const res = await updateReligion(id, newReligion);
-            const addedReligion = res.data;
+            const updatedReligion = res.data;
 
-            religions.update((currentReligions) => [
-                ...currentReligions,
+            religions.update((currentReligions) =>
+                currentReligions.map((religion) =>
+                    religion._id === id ? updatedReligion : religion,
+                ),
+            );
 
-                addedReligion,
-            ]);
-            await fetchReligions();
+            // Fetch updated religions and set them in store
+            const updatedReligions = await fetchReligions();
+            religions.set(updatedReligions);
+
             newReligion = { name: "", description: "", isActive: false };
 
             goto("/religions");
-            showToast("Religion Update Successfully", "success");
+            showToast("Religion Updated Successfully", "success");
         } catch (error: any) {
             console.error(
-                "Error adding religion:",
+                "Error updating religion:",
                 error.response ? error.response.data : error,
             );
         } finally {
