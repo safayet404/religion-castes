@@ -9,8 +9,8 @@
     import { writable } from "svelte/store";
     import { goto } from "$app/navigation";
     import {
+        fetchSingleCaste,
         fetchSingleReligion,
-        fetchSngleCaste,
     } from "../../utils/fetchData";
 
     $: religionId = $page.params.religionId;
@@ -22,7 +22,7 @@
         try {
             singleReligionData = await fetchSingleReligion(religionId);
 
-            const casteData = await fetchSngleCaste(casteId);
+            const casteData = await fetchSingleCaste(casteId);
 
             newCaste.name = casteData.name;
             newCaste.description = casteData.description;

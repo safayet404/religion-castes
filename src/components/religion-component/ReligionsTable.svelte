@@ -1,14 +1,16 @@
 <script lang="ts">
+    import { onMount } from "svelte";
     import type { Religion } from "../../types/religion";
-    import { errorMessage, religions } from "../../stores/religions";
+    import { religions } from "../../stores/religions"; // Import the store
+    import { fetchReligions } from "../../utils/fetchData";
     import { deleteReligion } from "../../utils/deleteOperation";
 
-    let localReligions: Religion[] = [];
-
-    let localErrorMessage: string | null = null;
-    $: localReligions = $religions;
-
-    $: localErrorMessage = $errorMessage;
+    onMount(async () => {
+        if ($religions.length === 0) {
+            const data: Religion[] = await fetchReligions();
+            religions.set(data);
+        }
+    });
 </script>
 
 <section>
