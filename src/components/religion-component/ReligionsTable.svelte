@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import type { Religion } from "../../types/religion";
-    import { religions } from "../../stores/religions";
-    import { fetchReligions } from "../../utils/fetchData";
+    import { errorMessage, religions } from "../../stores/religions";
     import { deleteReligion } from "../../utils/deleteOperation";
 
-    onMount(async () => {
-        const data: Religion[] = await fetchReligions();
-        religions.set(data);
-    });
+    let localReligions: Religion[] = [];
+
+    let localErrorMessage: string | null = null;
+    $: localReligions = $religions;
+
+    $: localErrorMessage = $errorMessage;
 </script>
 
 <section>
@@ -51,7 +51,7 @@
                             >{religion?.description}</td
                         >
                         <td class="w-[5%] px-6 py-3 text-left"
-                            >{religion?.isActive}</td
+                            >{religion?.isActive ? "Yes" : "No"}</td
                         >
                         <td class="w-[30%] px-6 py-3 font-semibold text-sm">
                             <button

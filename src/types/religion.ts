@@ -1,16 +1,16 @@
-export interface Religion {
 
-    _id: string
-    name: string,
+export interface Caste {
+    _id: string;
+    name: string;
+    religionId: string;
     description: string,
-    castes: any[];
-    isActive: boolean
+    isActive: boolean;
 }
-export interface Castes {
 
-    _id: string
-    name: string,
+export interface Religion {
+    _id: string;
+    name: string;
     description: string,
-    religion: Religion,
-    castes: Religion
+    castes: Caste[]; // ✅ List of castes inside religion
+    isActive: boolean;
 }

@@ -21,7 +21,6 @@
         const data: Religion[] = await res.json();
 
         singleReligion = data;
-        console.log("single data", singleReligion?.name);
     });
 
     $: if (singleReligion) {

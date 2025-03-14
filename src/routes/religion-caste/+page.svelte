@@ -1,5 +1,5 @@
 <script>
-    import ReligionAndCaste from "../../components/ReligionAndCaste.svelte";
+    import ReligionAndCaste from "../../components/religion and caste/ReligionAndCaste.svelte";
 </script>
 
 <ReligionAndCaste />

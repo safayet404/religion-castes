@@ -6,6 +6,7 @@
     import { writable } from "svelte/store";
     import { fetchReligions } from "../../utils/fetchData";
     import { createReligion } from "../../utils/createOperation";
+    import { addReligionToCache } from "../religion and caste/religionAndCasteFetch";
 
     let newReligion = {
         name: "",
@@ -23,10 +24,8 @@
         isLoading.set(true);
         try {
             const addedReligion = await createReligion(newReligion);
-            religions.update((currentReligions) => [
-                ...currentReligions,
-                addedReligion,
-            ]);
+
+            addReligionToCache(addedReligion);
 
             await fetchReligionAgain();
             newReligion = { name: "", description: "", isActive: false };
