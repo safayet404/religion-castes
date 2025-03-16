@@ -5,7 +5,7 @@ import { showToast } from '../service/toastService';
 export const deleteReligion = async (id: string) => {
     try {
         await axios.delete(
-            `https://religion-caste-backend.vercel.app/api/religions/delete-religion/${id}`,
+            `https://religion-caste-backend.onrender.com/api/religions/delete-religion/${id}`,
         );
 
         religions.update((religionList) =>
@@ -22,7 +22,7 @@ export const deleteReligion = async (id: string) => {
 export const deleteCaste = async (id: string) => {
     try {
         await axios.delete(
-            `https://religion-caste-backend.vercel.app/api/castes/delete-caste/${id}`,
+            `https://religion-caste-backend.onrender.com/api/castes/delete-caste/${id}`,
         );
         singleReligion.update((casteList) =>
             casteList.filter((caste) => caste._id !== id),

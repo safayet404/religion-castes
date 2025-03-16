@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const createReligion = async (data: any) => {
     try {
-        const response = await axios.post("https://religion-caste-backend.vercel.app/api/religions/create-religion", data, {
+        const response = await axios.post("https://religion-caste-backend.onrender.com/api/religions/create-religion", data, {
             headers: {
                 "Content-Type": "application/json",
             },
@@ -15,7 +15,7 @@ export const createReligion = async (data: any) => {
 };
 export const createCaste = async (data: any) => {
     try {
-        const response = await axios.post("https://religion-caste-backend.vercel.app/api/castes/create-caste", data, {
+        const response = await axios.post("https://religion-caste-backend.onrender.com/api/castes/create-caste", data, {
             headers: {
                 "Content-Type": "application/json",
             },

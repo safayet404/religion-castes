@@ -11,21 +11,14 @@
                     <a
                         href="/religions"
                         class="block px-6 py-1 rounded-lg text-center w-full sm:w-auto"
-                        >Religions</a
+                        >Religions(admin page)</a
                     >
                 </li>
                 <li>
                     <a
                         href="/religion-caste"
                         class="block px-6 py-1 rounded-lg text-center w-full sm:w-auto"
-                        >ReligionCaste</a
-                    >
-                </li>
-                <li>
-                    <a
-                        href="/birth"
-                        class="block px-6 py-1 rounded-lg text-center w-full sm:w-auto"
-                        >Birth Date</a
+                        >Person</a
                     >
                 </li>
             </ul>

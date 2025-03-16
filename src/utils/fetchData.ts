@@ -1,6 +1,6 @@
 export const fetchReligions = async () => {
     try {
-        const res = await fetch("https://religion-caste-backend.vercel.app/api/religions/get-religions");
+        const res = await fetch("https://religion-caste-backend.onrender.com/api/religions/get-religions");
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -14,7 +14,7 @@ export const fetchReligions = async () => {
 
 export const fetchCastesByReligion = async (religionId: string) => {
     try {
-        const res = await fetch(`https://religion-caste-backend.vercel.app/api/religions/single-religion/${religionId}`);
+        const res = await fetch(`https://religion-caste-backend.onrender.com/api/religions/single-religion/${religionId}`);
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -28,7 +28,7 @@ export const fetchCastesByReligion = async (religionId: string) => {
 
 export const fetchSingleReligion = async (religionId: string) => {
     try {
-        const res = await fetch(`https://religion-caste-backend.vercel.app/api/religions/single-religion/${religionId}`);
+        const res = await fetch(`https://religion-caste-backend.onrender.com/api/religions/single-religion/${religionId}`);
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
@@ -42,7 +42,7 @@ export const fetchSingleReligion = async (religionId: string) => {
 
 export const fetchSingleCaste = async (casteId: string) => {
     try {
-        const res = await fetch(`https://religion-caste-backend.vercel.app/api/castes/single-caste/${casteId}`);
+        const res = await fetch(`https://religion-caste-backend.onrender.com/api/castes/single-caste/${casteId}`);
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
