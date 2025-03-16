@@ -1,12 +1,39 @@
 <script lang="ts">
+    import { dateOfBirth } from "../stores/persons";
+
     let day: number | "" = "";
     let month: number | "" = new Date().getMonth() + 1;
     let year: number | "" = new Date().getFullYear();
     let age: string = "";
     let errorMessage: string = "";
 
-    const minAge = 12;
+    let editDay: number | null = null;
+    let editMonth: number | null = null;
+    let editYear: number | null = null;
 
+    export let birthDate: string | null;
+
+    $: {
+        if (birthDate) {
+            const [year, month, day] = birthDate
+                .split("T")[0]
+                .split("-")
+                .map(Number);
+            editYear = year;
+            editMonth = month;
+            editDay = day;
+        }
+    }
+
+    $: {
+        if (editDay !== null && editMonth !== null && editYear !== null) {
+            day = editDay;
+            month = editMonth;
+            year = editYear;
+        }
+    }
+
+    const minAge = 12;
     let isValid = true;
 
     function isLeapYear(year: number): boolean {
@@ -81,6 +108,9 @@
             } else {
                 age = `${calculatedYear} years, ${calculatedMonth} months, ${calculatedDay} days`;
             }
+
+            const formattedDate = `${monthNum}-${dayNum}-${yearNum}`;
+            dateOfBirth.set(formattedDate);
         }
     }
 
@@ -114,10 +144,8 @@
     }
 </script>
 
-<div class="container mx-auto mt-10 p-5 sm:p-2">
-    <h1 class="font-bold text-lg md:text-3xl text-black mb-10">
-        Date of Birth (Age minimum 12 years)
-    </h1>
+<div class="container mx-auto p-2">
+    <h1 class="text-black mb-2">Date of Birth</h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-10">
         <div class="flex flex-col">
@@ -169,24 +197,6 @@
             class="text-[#D91B42] text-base md:text-xl mt-5 border border-red-800 p-1 w-[50%] text-center mx-auto bg-[#F8D7DA]"
         >
             {errorMessage}
-        </div>
-    {/if}
-
-    <div class="mt-10">
-        <p>Day : {day}</p>
-        <p>Month : {month}</p>
-        <p>Year : {year}</p>
-
-        {#if !age}
-            <p class="text-black font-bold text-xl md:text-3xl mx-auto mt-10">
-                Age :
-            </p>
-        {/if}
-    </div>
-
-    {#if isValid && age}
-        <div class="text-black font-bold text-xl md:text-3xl mx-auto mt-10">
-            Age: {age}
         </div>
     {/if}
 </div>

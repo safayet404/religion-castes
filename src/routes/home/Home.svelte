@@ -16,7 +16,7 @@
                 </li>
                 <li>
                     <a
-                        href="/religion-caste"
+                        href="/persons"
                         class="block px-6 py-1 rounded-lg text-center w-full sm:w-auto"
                         >Person</a
                     >

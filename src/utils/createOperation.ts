@@ -13,6 +13,21 @@ export const createReligion = async (data: any) => {
         throw error;
     }
 };
+export const createPerson = async (data: any) => {
+    try {
+        const response = await axios.post("https://religion-caste-backend.onrender.com/api/user/create-user", data, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error in POST request:", error);
+        throw error;
+    }
+};
+
+
 export const createCaste = async (data: any) => {
     try {
         const response = await axios.post("https://religion-caste-backend.onrender.com/api/castes/create-caste", data, {

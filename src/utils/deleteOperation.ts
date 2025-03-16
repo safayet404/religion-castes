@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { religions, singleReligion } from '../stores/religions';
 import { showToast } from '../service/toastService';
+import { persons } from '../stores/persons';
 
 export const deleteReligion = async (id: string) => {
     try {
@@ -13,6 +14,22 @@ export const deleteReligion = async (id: string) => {
         );
 
         showToast("Religion deleted successfully", "success");
+    } catch (error) {
+        console.error("Error deleting religion:", error);
+        showToast("Error deleting religion", "error");
+    }
+};
+export const deletePerson = async (id: string) => {
+    try {
+        await axios.delete(
+            `https://religion-caste-backend.onrender.com/api/user/delete-user/${id}`,
+        );
+
+        persons.update((personList) =>
+            personList.filter((person) => person._id !== id),
+        );
+
+        showToast("User deleted successfully", "success");
     } catch (error) {
         console.error("Error deleting religion:", error);
         showToast("Error deleting religion", "error");

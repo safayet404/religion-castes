@@ -39,8 +39,8 @@
     }
 </script>
 
-<section class="mt-5 container mx-auto">
-    <div class="mx-auto px-10 py-5">
+<section class="container mx-auto">
+    <div class="mx-auto">
         {#if currentErrorMessage}
             <div class="text-red-500">{currentErrorMessage}</div>
         {/if}
@@ -48,22 +48,6 @@
         <div class="grid grid-cols-2 bg-[#14646f] p-10 rounded-md">
             <ReligionSelector />
             <CasteSelector />
-        </div>
-
-        <div class="mt-4">
-            <h2 class="text-lg font-bold">Selected Religion:</h2>
-
-            <p>Religion Name: {selectedReligionName || "None selected"}</p>
-
-            <p>Religion ID: {$selectedReligionId || "None selected"}</p>
-        </div>
-
-        <div class="mt-4">
-            <h2 class="text-lg font-bold">Selected Caste:</h2>
-
-            <p>Caste Name: {selectedCasteName || "None selected"}</p>
-
-            <p>Caste ID: {$selectedCasteId || "None selected"}</p>
         </div>
     </div>
 </section>
