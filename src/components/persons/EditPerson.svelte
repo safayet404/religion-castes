@@ -13,6 +13,8 @@
     import { fetchPerosns, fetchSinglePerson } from "../../utils/fetchData";
     import type { Persons } from "../../types/persons";
     import { page } from "$app/stores";
+    import { updatePerson } from "../../utils/updateOperation";
+    import { goto } from "$app/navigation";
     export let id: string;
 
     $: id = $page.params.id;
@@ -102,7 +104,7 @@
                 return;
             }
             console.log("Adding person with data:", newPerson);
-            const addedPerson = await createPerson(newPerson);
+            const addedPerson = await updatePerson(id, newPerson);
             await fetchPerosnsAgain();
 
             newPerson = {
@@ -116,7 +118,8 @@
             };
             dateOfBirth.set(null);
 
-            showToast("Person Added Successfully", "success");
+            showToast("Person Updated Successfully", "success");
+            goto("/persons");
         } catch (error) {
             console.log(error);
 
@@ -194,7 +197,7 @@
                         </button>
 
                         <a
-                            href="/person"
+                            href="/persons"
                             class="bg-[#f100b7] p-2 w-full text-white text-center rounded-md"
                             >Cancel</a
                         >
