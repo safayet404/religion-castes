@@ -67,8 +67,6 @@
     });
 
     $: if (singleUser) {
-        console.log("Single User Date of Birth:", singleUser.dateOfBirth);
-
         birthDate = singleUser.dateOfBirth || null;
         newPerson = {
             name: singleUser.name,
@@ -103,7 +101,6 @@
                 showToast("Caste is required", "error");
                 return;
             }
-            console.log("Adding person with data:", newPerson);
             const addedPerson = await updatePerson(id, newPerson);
             await fetchPerosnsAgain();
 
@@ -139,7 +136,6 @@
     <div class="container mx-auto p-4">
         <h1 class="font-bold text-lg md:text-4xl mt-10">Person Manager</h1>
 
-        {$dateOfBirth}
         <form class="mt-10 mx-auto" on:submit|preventDefault={addPerosn}>
             <div class="grid grid-cols-1 w-[50%] gap-10">
                 <div class="flex flex-col">

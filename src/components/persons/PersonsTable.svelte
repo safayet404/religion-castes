@@ -72,10 +72,15 @@
                                 >{person?.name}</td
                             >
                             <td class="w-[15%] px-6 py-3 text-left"
-                                >{person?.email}</td
+                                ><div class="flex flex-col">
+                                    <span> {person?.company}</span>
+                                    <span class="underline">
+                                        {person?.job}</span
+                                    >
+                                </div></td
                             >
                             <td class="w-[15%] px-6 py-3 text-left"
-                                >{person?.company}</td
+                                >{person?.email}</td
                             >
                             <td class="w-[17%] px-6 py-3 text-left"
                                 >{person?.religion}</td
