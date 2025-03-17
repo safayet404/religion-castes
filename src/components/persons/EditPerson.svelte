@@ -79,21 +79,9 @@
         };
     }
 
-    console.log("Single User Date of Birth:", birthDate);
-
     const addPerosn = async () => {
         isLoading.set(true);
         try {
-            const emailExists = $persons.some(
-                (person) => person.email === newPerson.email,
-            );
-            if (emailExists) {
-                showToast(
-                    "Email already exists. Please use a different one.",
-                    "error",
-                );
-                return;
-            }
             newPerson.dateOfBirth = $dateOfBirth;
 
             newPerson.religion = $selectedReligionId;
